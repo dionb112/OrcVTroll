@@ -9,7 +9,10 @@ protected:
 public:
 	void setValues(int s, int d) { m_strength = s; m_defense = d; }
 	//virtual void die() = 0;
-
+	void retreat();
+	void checkTarget();
+	void die();
+	void chooseAction();
 };
 
 class Goblin : public Character {
