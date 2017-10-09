@@ -3,35 +3,56 @@
 #include <sstream>
 #include <string>
 #include <ctime>
+#include <Windows.h>
+#include <cstdlib>
 
 using namespace std;
 class Character {
 protected:
-	int m_strength;
-	int m_defense;
+	int m_meleeOffense;
+	int m_meleeDefense;
+	int m_magicOffense;
+	int m_magicDefense;
 	int m_health = 10;
 	std::string m_name;
-	bool m_goFirst;
+	bool m_readyToGo;
 public:
-	Character(int s = 0, int d = 0, std::string n = "") { m_strength = s; m_defense = d; m_name = n; }
-	virtual void warCry() = 0;
+	Character(int t_meO = 0,
+			  int t_meD = 0,
+			  int t_maO = 0,
+			  int t_maD = 0,
+			  std::string t_n = "");
 	void retreat();
 	void checkTarget();
 	void die();
 	void chooseAction();
-	void setName(std::string n) { m_name = n; }
-	void setGo(bool g) { m_goFirst = g; }
+	void setName(std::string t_n) { m_name = t_n; }
+	void setGo();
 	std::string getName() { return m_name; }
-	bool getGo() { return m_goFirst; }
-
+	bool getGo() { return m_readyToGo; }
+	void setStats(	int t_meO, 
+					int t_meD, 
+					int t_maO, 
+					int t_maD) 
+	{	m_meleeOffense = t_meO; 
+		m_meleeDefense = t_meD; 
+		m_magicOffense = t_maO; 
+		m_magicDefense = t_maD; }
+	
+	virtual void warCry() = 0;
+	virtual void team() = 0;
 };
 
 class Troll : public Character {
 public:
 	void warCry() { cout << "DEATH TO THE ORC SCUM! " << endl; }
+	void team() { cout << "Troll"; }
+	//different attacks can also be unique for polymorphism
 };
 
 class Orc : public Character {
 public: 
 	void warCry() { cout << "DEATH TO THE TROLL SCUM!" << endl; }
+	void team() { cout << "Orc"; }
+
 };

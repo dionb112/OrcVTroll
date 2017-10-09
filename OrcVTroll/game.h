@@ -9,11 +9,10 @@ struct GameStates
 };
 class Game {
 private:
-	Character ** m_trolls = new Character *[10]; // pointer to pointers... An array of pointers to instances (objects) of the base class
-	Character ** m_orcs = new Character *[10];
+	Character ** m_player = new Character *[10]; // pointer to pointers... An array of pointers to instances (objects) of the base class
+	Character ** m_enemy = new Character *[10];
 	int m_choice;
 	std::string m_input;
-	std::string m_team;
 	void naming();
 	void initiative();
 	void battle();
