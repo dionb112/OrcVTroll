@@ -1,6 +1,6 @@
 #include "game.h"
 
-Game::Game()
+Game::Game() : m_playerDefends{ false }
 {
 
 }
@@ -96,6 +96,7 @@ void Game::battle()
 			}
 			if (m_choice == 1) //offense
 			{
+				m_playerDefends = false;
 				m_choice = 0;
 				while (m_choice < 1 || m_choice > 2)
 				{
@@ -172,6 +173,7 @@ void Game::battle()
 			}
 			else // DEFENSE
 			{
+				m_playerDefends = true;
 				m_choice = 0;
 				while (m_choice < 1 || m_choice > 3)
 				{
@@ -197,14 +199,15 @@ void Game::battle()
 		}
 		else
 		{
+			system("CLS");
 			std::cout << m_enemy[i]->getName() << " is choosing his action";
 			for (int i = 0; i < 3; i++)
 			{
-				Sleep(800);
+				Sleep(500);
 				std::cout << ".";
 			}
 			std::cout << endl;
-			m_enemy[i]->chooseAction(); // If player defending -> attack, else do ANY random action (becuase, both defendng = BORING, both Attacking = INTENSE, mix = EXPECED)
+			m_enemy[i]->chooseAction(m_playerDefends); // If player defending -> attack, else do ANY random action (becuase, both defendng = BORING, both Attacking = INTENSE, mix = EXPECED)
 		}
 		// so that readyToGo bool is swapped to whatever it wasn't, will then call battle() again so that the opponent or player, as required can take their go
 		// this bool will be then be ser again at next initiative (i,e battle() runs through twice, for the grunts who go first and then the corresponding get to go)
