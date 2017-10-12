@@ -25,6 +25,7 @@ public:
 	void retreat();
 	void checkTarget();
 	void die();
+	void chooseAction(bool playerDef);
 	void setName(std::string t_n) { m_name = t_n; }
 	void setGo();
 	std::string getName() { return m_name; }
@@ -40,8 +41,6 @@ public:
 	
 	virtual void warCry() = 0;
 	virtual void team() = 0;
-	virtual void chooseAction(bool playerDef);
-
 };
 
 class Troll : public Character {
