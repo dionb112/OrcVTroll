@@ -16,10 +16,13 @@ private:
 	std::string m_input;
 	void naming();
 	void initiative();
-	void battle();
-	void resetGame();
-	void checkDmg();
+	void chooseAction();
+	void skirmish();
+	void checkRetreat();
+
 	void userInput();
+	void loop();
+	void resetGame();
 public:
 	Game();
 	void run();

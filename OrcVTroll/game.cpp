@@ -17,6 +17,49 @@ void Game::userInput()
 		std::cout << "Invalid entry, please try again" << std::endl;
 	}
 }
+
+void Game::run()
+{
+	srand(time(NULL)); //set the seed
+	m_choice = 0;
+
+	while (m_choice < 1 || m_choice > 2)
+	{
+		system("CLS");
+		std::cout << "Choose a side to battle for control of the Kingdom!\n1:Orcs\n2:Trolls" << std::endl;
+		userInput();
+	}
+	switch (m_choice)
+	{
+	case 1:
+		system("CLS");
+		for (int i = 0; i < 10; i++)
+		{
+			m_enemy[i] = new Troll;
+			m_player[i] = new Orc;
+		}
+		break;
+	case 2:
+		system("CLS");
+		for (int i = 0; i < 10; i++)
+		{
+			m_player[i] = new Troll;
+			m_enemy[i] = new Orc;
+		}
+		break;
+	}
+	m_player[0]->warCry(); //just using the first indexed troll and orc objects to do the first war cry ! 
+	naming();
+	initiative();
+	std::cout << endl;
+	system("PAUSE");
+	chooseAction();//needs to run through twice, first for the quick grunts
+	chooseAction();//then followed by the slow ones#
+	std::cout << endl;
+	system("PAUSE");
+	skirmish();
+	checkRetreat();
+}
 void Game::naming()
 {
 	std::string name;
@@ -57,7 +100,6 @@ void Game::initiative()
 	int enemyRoll;
 	system("CLS");
 	std::cout << "Rolling Battle Initiative (order) for each character: " << endl;
-
 	for (int i = 0; i < 10; i++)
 	{
 		playerRoll = 0;
@@ -71,16 +113,16 @@ void Game::initiative()
 				m_player[i]->setGo(); // sets the player bool of go first to on (will always be off before it get to here)
 				std::cout << m_player[i]->getName() << " gets to act before " << m_enemy[i]->getName();
 			}
-			else
+			else if (enemyRoll > playerRoll) // seems redundant but if it's equal it won't notice until end of this loops iteration ends
 			{
 				std::cout << m_enemy[i]->getName() << " gets to act before " << m_player[i]->getName();
 			}
 		}
-		std::cout << endl;
+		std::cout << endl << endl;
 	}
 }
 
-void Game::battle()
+void Game::chooseAction()
 {
 	for (int i = 0; i < 10; i++)
 	{
@@ -203,11 +245,11 @@ void Game::battle()
 			std::cout << m_enemy[i]->getName() << " is choosing his action";
 			for (int i = 0; i < 3; i++)
 			{
-				Sleep(500);
+				Sleep(250);
 				std::cout << ".";
 			}
 			std::cout << endl;
-			m_enemy[i]->chooseAction(m_playerDefends); // If player defending -> attack, else do ANY random action (becuase, both defendng = BORING, both Attacking = INTENSE, mix = EXPECED)
+			m_enemy[i]->randomAction(m_playerDefends); // If player defending -> attack, else do ANY random action (becuase, both defendng = BORING, both Attacking = INTENSE, mix = EXPECED)
 		}
 		// so that readyToGo bool is swapped to whatever it wasn't, will then call battle() again so that the opponent or player, as required can take their go
 		// this bool will be then be ser again at next initiative (i,e battle() runs through twice, for the grunts who go first and then the corresponding get to go)
@@ -215,45 +257,120 @@ void Game::battle()
 	}
 }
 
-void Game::run()
+/// Function here which compares all the stat values which have previously been set
+/// Checks which characters take damage then reduces their health by that ammount if so
+/// Finally checks if a character health reaches 0, kill them
+void Game::skirmish()
 {
-	srand(time(NULL)); //set the seed
-	m_choice = 0;
-
-	while (m_choice < 1 || m_choice > 2)
+	int dmg = 0;
+	int pDamage = 0;
+	int eDamage = 0;
+	system("CLS");
+	cout << "CHARGE";
+	for (int i = 0; i < 4; i++)
 	{
-		system("CLS");
-		std::cout << "Choose a side to battle for control of the Kingdom!\n1:Orcs\n2:Trolls" << std::endl;
-		userInput();
+		Sleep(500);
+		std::cout << "!";
 	}
-		switch (m_choice)
+	cout << endl;
+	for (int i = 0; i < 10; i++)
+	{
+		dmg = m_player[i]->getMeO() - m_enemy[i]->getMeD(); // storing this value here so can see if damage happened
+		if ( dmg > 0 )
 		{
-		case 1:
-			system("CLS");
-			for (int i = 0; i < 10; i++)
-			{
-				m_enemy[i] = new Troll;
-				m_player[i] = new Orc;
-			}
-			break;
-		case 2:
-			system("CLS");
-			for (int i = 0; i < 10; i++)
-			{
-				m_player[i] = new Troll;
-				m_enemy[i] = new Orc;
-			}
-			break;
+			eDamage = dmg;//if so then store that damage 
 		}
-		m_player[0]->warCry(); //just using the first indexed troll and orc objects to do the first war cry ! 
 
-	///for now these can be here
-	naming();
-	initiative();
-	std::cout << endl;
-	system("PAUSE"); 
-	battle();//needs to run through twice, first for the quick grunts
-	battle();//then followed by the slow ones
+		dmg = m_enemy[i]->getMeO() - m_player[i]->getMeD();
+		if ( dmg > 0)
+		{
+			pDamage = dmg;
+		}
+
+		dmg = m_player[i]->getMaO() - m_enemy[i]->getMaD();
+		if ( dmg > 0)
+		{
+			eDamage = dmg;
+		}
+
+		dmg = m_enemy[i]->getMaO() - m_player[i]->getMaD();
+		if ( dmg > 0)
+		{
+			pDamage = dmg;
+		}
+		///checking if damaged
+		if (pDamage != 0)
+		{
+			m_player[i]->takeDamage(pDamage);
+			cout << m_player[i]->getName() << " has taken " << pDamage << " damage!" << endl;
+			///checking if dead
+			if (m_player[i]->getHealth() <= 0)
+			{
+				m_player[i]->die();
+			}
+			cout << endl;
+		}
+		if (eDamage != 0)
+		{
+			m_enemy[i]->takeDamage(eDamage); //finally that apply stored dmg and output a message
+			cout << m_enemy[i]->getName() << " has taken " << eDamage << " damage!" << endl;
+
+			if (m_enemy[i]->getHealth() <= 0)
+			{
+				m_enemy[i]->die();
+			}
+			cout << endl;
+		}
+		dmg = 0;
+		pDamage = 0;
+		eDamage = 0;
+	}
+}
+
+void Game::checkRetreat()
+{
+	short playerCount = 0;
+	short enemyCount = 0;
+	for (int i = 0; i < 10; i++)
+	{
+		if (m_player[i]->getHealth() > 0)
+		{
+			playerCount++;
+		}
+		if (m_enemy[i]->getHealth() > 0)
+		{
+			enemyCount++;
+		}
+	}
+	if (playerCount == 0)
+	{
+		cout << "You have lost all your grunts, unlucky!" << endl;
+	}
+	if (enemyCount == 0)
+	{
+		cout << "You have slaughtered ALL enemy grunts, CONGRATULATIONS!" << endl;
+	}
+	if (enemyCount == 0 && playerCount == 0)
+	{
+		cout << "Both sides have lost all the grunts, novody wins, HA!" << endl;
+	}
+	// I had decided if the ratio was 3:1 (or worse) player grunts to enemies they would surrender this math calculates those odds
+	//but since i am removing the potential for multiple combat rounds it matters not
+	else if (playerCount > enemyCount) 
+	{
+		cout << "WOW! It looks like your forces outnumber the enemies!" << endl;
+		m_enemy[0]->team();
+		cout << "s may not be THE brightest, but they seem to still value their survival when the odds are against them!" << endl;
+		cout << "So, the enemy has retreated, you have WON the battle! CONGRATULATIONS!";
+	}
+	else if (enemyCount > playerCount)
+	{
+		cout << "WOW! It looks like the enemy forces outnumber your own!" << endl;
+		m_player[0]->team();
+		cout << "s are not the bravest, they seem to still value their survival over victory!" << endl;
+		cout << "So, against your wishes your grunts have retreated, better luck next time !";
+
+	}
 	std::cout << endl;
 	system("PAUSE");
 }

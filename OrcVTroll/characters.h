@@ -13,7 +13,7 @@ protected:
 	int m_meleeDefense;
 	int m_magicOffense;
 	int m_magicDefense;
-	int m_health = 10;
+	int m_health;
 	std::string m_name;
 	bool m_readyToGo;
 public:
@@ -24,20 +24,27 @@ public:
 			  std::string t_n = "");
 	void retreat();
 	void checkTarget();
-	void die();
-	void chooseAction(bool playerDef);
-	void setName(std::string t_n) { m_name = t_n; }
-	void setGo();
+	void randomAction(bool playerDef);
+	void die() { cout << m_name << " has died!"  << endl; }
+
 	std::string getName() { return m_name; }
 	bool getGo() { return m_readyToGo; }
-	void setStats(	int t_meO, 
-					int t_meD, 
-					int t_maO, 
-					int t_maD) 
-	{	m_meleeOffense = t_meO; 
-		m_meleeDefense = t_meD; 
-		m_magicOffense = t_maO; 
-		m_magicDefense = t_maD; }
+	int getMeO() { return m_meleeOffense; }
+	int getMeD() { return m_meleeDefense; }
+	int getMaO() { return m_magicOffense; }
+	int getMaD() { return m_magicDefense; }
+	int getHealth() { return m_health; }
+
+	void takeDamage(int dmg) { m_health -= dmg; }
+	void setName(std::string t_n) { m_name = t_n; }
+	void setGo();
+	void setStats(
+		int t_meO,
+		int t_meD,
+		int t_maO,
+		int t_maD
+	);
+
 	
 	virtual void warCry() = 0;
 	virtual void team() = 0;

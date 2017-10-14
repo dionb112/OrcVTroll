@@ -8,8 +8,8 @@
 //	}
 //}
 
-Character::Character(int t_meO, int t_meD, int t_maO, int t_maD, std::string t_n) 
-	: m_readyToGo{false}
+Character::Character(int t_meO, int t_meD, int t_maO, int t_maD, std::string t_n)
+	: m_readyToGo{ false }, m_health(10)
 {
 	m_meleeOffense = t_meO;
 	m_meleeDefense = t_meD;
@@ -25,7 +25,7 @@ Character::Character(int t_meO, int t_meD, int t_maO, int t_maD, std::string t_n
 /// and also a chance that BOTH characters charge at each other with an attack (EXCITING).
 /// </summary>
 /// <param name="playerDef"></param>
-void Character::chooseAction(bool playerDef)
+void Character::randomAction(bool playerDef)
 {
 	int randomAction;
 	if (playerDef)
@@ -38,10 +38,10 @@ void Character::chooseAction(bool playerDef)
 	}
 	switch (randomAction)
 	{
-	//MELEE
+		//MELEE
 	case 1:
-			   //meO, meD, maO, maD (For now all actions stats are same for player and enemy to keep it BALANCED)
-		setStats(2,   6,   0,   0);
+			//meO, meD, maO, maD (For now all actions stats are same for player and enemy to keep it BALANCED)
+		setStats(2, 6, 0, 0);
 		break;
 	case 2:
 		setStats(3, 5, 0, 0);
@@ -61,7 +61,7 @@ void Character::chooseAction(bool playerDef)
 	case 7:
 		setStats(10, 0, 0, 0);
 		break;
-	//MAGIC
+		//MAGIC
 	case 8:
 		setStats(0, 0, 2, 6);
 		break;
@@ -77,7 +77,7 @@ void Character::chooseAction(bool playerDef)
 	case 12:
 		setStats(0, 0, 10, 0);
 		break;
-	//DEFEND
+		//DEFEND
 	case 13:
 		setStats(0, 10, 0, 0);
 		break;
@@ -87,6 +87,7 @@ void Character::chooseAction(bool playerDef)
 	case 15:
 		setStats(0, 5, 0, 5);
 		break;
+	}
 }
 
 void Character::setGo()
@@ -99,4 +100,12 @@ void Character::setGo()
 	{
 		m_readyToGo = true;
 	}
+}
+
+void Character::setStats(int t_meO, int t_meD, int t_maO, int t_maD)
+{
+	m_meleeOffense = t_meO;
+	m_meleeDefense = t_meD;
+	m_magicOffense = t_maO;
+	m_magicDefense = t_maD;
 }
