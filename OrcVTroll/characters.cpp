@@ -41,51 +41,51 @@ void Character::randomAction(bool playerDef)
 		//MELEE
 	case 1:
 			//meO, meD, maO, maD (For now all actions stats are same for player and enemy to keep it BALANCED)
-		setStats(2, 6, 0, 0);
+		setStats(1, 7, 0, 0);
 		break;
 	case 2:
-		setStats(3, 5, 0, 0);
+		setStats(2, 5, 0, 0);
 		break;
 	case 3:
-		setStats(4, 4, 0, 0);
+		setStats(3, 4, 0, 0);
 		break;
 	case 4:
-		setStats(5, 3, 0, 0);
+		setStats(6, 1, 0, 0);
 		break;
 	case 5:
-		setStats(6, 2, 0, 0);
+		setStats(6, 3, 0, 0);
 		break;
 	case 6:
-		setStats(8, 1, 0, 0);
+		setStats(8, 2, 0, 0);
 		break;
 	case 7:
-		setStats(10, 0, 0, 0);
+		setStats(11, 0, 0, 0);
 		break;
 		//MAGIC
 	case 8:
-		setStats(0, 0, 2, 6);
+		setStats(0, 0, 1, 7);
 		break;
 	case 9:
-		setStats(0, 0, 3, 5);
+		setStats(0, 0, 2, 5);
 		break;
 	case 10:
-		setStats(0, 0, 6, 3);
+		setStats(0, 0, 6, 2);
 		break;
 	case 11:
-		setStats(0, 0, 8, 2);
+		setStats(0, 0, 7, 3);
 		break;
 	case 12:
-		setStats(0, 0, 10, 0);
+		setStats(0, 0, 11, 0);
 		break;
 		//DEFEND
 	case 13:
-		setStats(0, 10, 0, 0);
+		setStats(0, 11, 0, 0);
 		break;
 	case 14:
-		setStats(0, 0, 0, 10);
+		setStats(0, 0, 0, 11);
 		break;
 	case 15:
-		setStats(0, 5, 0, 5);
+		setStats(0, 4, 0, 6); // just to make it unique
 		break;
 	}
 }

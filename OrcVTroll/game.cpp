@@ -152,7 +152,7 @@ void Game::chooseAction()
 					while (m_choice < 1 || m_choice > 7)
 					{
 						system("CLS");
-						std::cout << "Choose a MELEE attack.\n1: Atk 1\n2: Atk 2\n3: Atk 3\n4: Atk 4\n5: Atk 5\n6: Atk 6\n7: Atk 7" << std::endl;
+						std::cout << "Choose a MELEE attack.\n1: Careful Strike\n2: Sweeping Strike\n3: Slashing Strike\n4: Lunging Strike\n5: Pierching Strike\n6: Roll and Slice\n7: FRENZIED STRIKE" << std::endl;
 						userInput();
 					}
 					// unique melee styles which provide more or less Melee Offense and Defensive
@@ -188,7 +188,7 @@ void Game::chooseAction()
 					while (m_choice < 1 || m_choice > 5)
 					{
 						system("CLS");
-						std::cout << "Choose a MAGIC spell.\n1: Mgc 1\n2: Mgc 2\n3: Mgc 3\n4: Mgc 4\n5: Mgc 5" << std::endl;
+						std::cout << "Choose a MAGIC spell.\n1: Air Blast\n2: Earth Blast\n3: Fire Blast\n4: Water Blast\n5: DEATH BLAST" << std::endl;
 						userInput();
 					}
 					// unique Magic styles which provide more or less Melee Offense and Defensive
@@ -318,6 +318,33 @@ void Game::skirmish()
 			if (m_enemy[i]->getHealth() <= 0)
 			{
 				m_enemy[i]->die();
+				///loot table implementation
+				cout << m_player[i]->getName() << " decides to loot " << m_enemy[i]->getName() << "s corpse!" << endl;
+				std::cout << endl;
+				system("PAUSE");
+				int randLoot = rand() % 4;
+				switch (randLoot)
+				{
+				case 1:
+					cout << "Oh look at the ";
+					m_enemy[i]->team();
+					cout << " Chainmail!";
+					break;
+				case 2:
+					cout << "Oh look at the ";
+					m_enemy[i]->team();
+					cout << " Necklace!";
+					break;
+				case 3:
+					cout << "Oh look at the";
+					m_enemy[i]->team();
+					cout << " Scimitar!";
+					break;
+				case 4:
+					cout << "You found nothing interesting";
+					break;
+				}
+				cout << endl;
 			}
 			cout << endl;
 		}
@@ -370,6 +397,10 @@ void Game::checkRetreat()
 		cout << "s are not the bravest, they seem to still value their survival over victory!" << endl;
 		cout << "So, against your wishes your grunts have retreated, better luck next time !";
 
+	}
+	else
+	{
+		cout << "Looks like a draw... how BORING, try again!"; // when I add multiple comabt rounds back in this won't happen of course :)
 	}
 	std::cout << endl;
 	system("PAUSE");
