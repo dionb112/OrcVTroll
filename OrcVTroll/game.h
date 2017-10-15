@@ -6,10 +6,11 @@
 struct LootTable
 {
 	int loot;
-} lootTable;
+};
 
 class Game {
 private:
+	LootTable lootTable;
 	Character ** m_player = new Character *[10]; // pointer to pointers... An array of pointers to instances (objects) of the base class
 	Character ** m_enemy = new Character *[10];
 	int m_choice;
@@ -20,10 +21,7 @@ private:
 	void chooseAction();
 	void skirmish();
 	void checkRetreat();
-
 	void userInput();
-	void loop();
-	void resetGame();
 public:
 	Game();
 	void run();
