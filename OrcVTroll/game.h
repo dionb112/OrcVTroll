@@ -3,10 +3,11 @@
 /// <summary>
 /// using a struct here as it seems, currently, the best place for one as required by rubric
 /// </summary>
-struct GameStates
+struct LootTable
 {
-	//start , combat etc
-};
+	int loot;
+} lootTable;
+
 class Game {
 private:
 	Character ** m_player = new Character *[10]; // pointer to pointers... An array of pointers to instances (objects) of the base class

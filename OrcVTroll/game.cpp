@@ -322,8 +322,10 @@ void Game::skirmish()
 				cout << m_player[i]->getName() << " decides to loot " << m_enemy[i]->getName() << "s corpse!" << endl;
 				std::cout << endl;
 				system("PAUSE");
-				int randLoot = rand() % 4;
-				switch (randLoot)
+
+				lootTable.loot = rand() % 4; //Utilising a C struct ! 
+				
+				switch (lootTable.loot)
 				{
 				case 1:
 					cout << "Oh look at the ";
